@@ -31,3 +31,41 @@ function getPlayerChoice() {
         }
     }
 }
+
+let playerSelection = getPlayerChoice();
+let computerSelection = getComputerChoice();
+let playerTracker = 0;
+let computerTracker = 0;
+
+function playRound(playerSelection, computerSelection) {
+    if (playerSelection === computerSelection) {
+        document.getElementById("Result").innerHTML = `Both player and computer picked ${playerSelection}. It's a draw!`;
+    } else if (playerSelection === "Rock") {
+        if (computerSelection === "Paper") {
+            document.getElementById("Result").innerHTML = "Computer picked Paper. You lost!"
+            ++computerTracker;
+        } else {
+            document.getElementById("Result").innerHTML = "Computer picked Scissors. You won!"
+            ++playerTracker;
+        }
+    } else if (playerSelection === "Paper") {
+        if (computerSelection === "Scissors") {
+            document.getElementById("Result").innerHTML = "Computer picked Scissors. You lost!"
+            ++computerTracker;
+        } else {
+            document.getElementById("Result").innerHTML = "Computer picked Rock. You won!"
+            ++playerTracker;
+        }
+    } else {
+        if (computerSelection === "Rock") {
+            document.getElementById("Result").innerHTML = "Computer picked Rock. You lost!"
+            ++computerTracker;
+        } else {
+            document.getElementById("Result").innerHTML = "Computer picked Paper. You won!"
+            ++playerTracker;
+        }
+    }
+}
+
+console.log(playRound(playerSelection, computerSelection));
+console.log(computerTracker);
