@@ -1,87 +1,71 @@
 function getComputerChoice() {
     let choiceNumber = Math.floor(Math.random() * 3) + 1;
     if (choiceNumber === 1) {
-        return "Rock";
+        return "rock";
     } else if (choiceNumber === 2) {
-        return "Paper";
+        return "paper";
     } else {
-        return "Scissors";
+        return "scissors";
     }
 }
 
 function getPlayerChoice() {
-    let showPrompt = true;
-    do {
-        let choice = prompt("Please, pick rock, paper or scissors.")
+    let choice;
+    while (true) {
+        choice = prompt("Please, pick rock, paper, or scissors.");
         if (typeof choice === "string") {
-            if (choice.toLowerCase() === "rock" ) {
-                showPrompt = false;
-                return "Rock";
-            } else if (choice.toLowerCase() === "paper") {
-                showPrompt = false;
-                return "Paper";
-            } else if (choice.toLowerCase() === "scissors") {
-                showPrompt = false;
-                return "Scissors";
+            choice = choice.toLowerCase();
+            if (choice === "rock" || choice === "paper" || choice === "scissors") {
+                return choice;
             } else {
-            alert("That's an invalid option.");
+                alert("That's an invalid option.");
             }
         } else {
             alert("That's an invalid option.");
         }
     }
-    while (showPrompt === true);
 }
 
 let playerTracker = 0;
 let computerTracker = 0;
+let playerSelection;
+let computerSelection;
 
-function playRound() {
-    let playerSelection = getPlayerChoice();
-    let computerSelection = getComputerChoice();
+function playRound(playerSelection, computerSelection) {
     if (playerSelection === computerSelection) {
-        console.log(`Both player and computer picked ${playerSelection}. It's a draw!`);
-    } else if (playerSelection === "Rock") {
-        if (computerSelection === "Paper") {
-            console.log("Computer picked Paper. You lost!");
-            ++computerTracker;
-        } else {
-            console.log("Computer picked Scissors. You won!");
-            ++playerTracker;
-        }
-    } else if (playerSelection === "Paper") {
-        if (computerSelection === "Scissors") {
-            console.log("Computer picked Scissors. You lost!");
-            ++computerTracker;
-        } else {
-            console.log("Computer picked Rock. You won!");
-            ++playerTracker;
-        }
+        result = `Both player and computer picked ${playerSelection}. It's a draw!`;
+    } else if (
+        (playerSelection === "rock" && computerSelection === "scissors" ) ||
+        (playerSelection === "paper" && computerSelection === "rock") ||
+        (playerSelection === "scissors" && computerSelection === "paper") 
+    ) {
+        result = `Computer picked ${computerSelection}. You won!`;
+        ++playerTracker;
     } else {
-        if (computerSelection === "Rock") {
-            console.log("Computer picked Rock. You lost!");
-            ++computerTracker;
-        } else {
-            console.log("Computer picked Paper. You won!");
-            ++playerTracker;
-        }
+        result = `Computer picked ${computerSelection}. You lost!`;
+        ++computerTracker;
     }
+    console.log(result);
+    console.log(`Current player score: ${playerTracker}`);
+    console.log(`Current computer score: ${computerTracker}`);
 }
 
-function playGame() {
-    let i = 0;
-    do {
-        playRound();
-        console.log(`Current player score: ${playerTracker}`);
-        console.log(`Current computer score: ${computerTracker}`);
-        ++i;
+async function playGame() {
+    for (let i = 0; i < 5; i++) {
+        let playerSelection = getPlayerChoice();
+        let computerSelection = getComputerChoice();
+        playRound(playerSelection,computerSelection);
+        await delay(1000);
     }
-    while (i < 5);
     if (playerTracker > computerTracker) {
         console.log("The game finished! You won!");
-    } else {
+        } else {
         console.log("The game finished! You lost!");
     }
 }
 
-console.log(playGame())
+function delay(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+playGame();
