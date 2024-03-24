@@ -11,7 +11,7 @@ function getComputerChoice() {
 
 function getPlayerChoice() {
     let showPrompt = true;
-    while (showPrompt === true) {
+    do {
         let choice = prompt("Please, pick rock, paper or scissors.")
         if (typeof choice === "string") {
             if (choice.toLowerCase() === "rock" ) {
@@ -30,42 +30,40 @@ function getPlayerChoice() {
             alert("That's an invalid option.");
         }
     }
+    while (showPrompt === true);
 }
 
-let playerSelection = getPlayerChoice();
-let computerSelection = getComputerChoice();
 let playerTracker = 0;
 let computerTracker = 0;
 
-function playRound(playerSelection, computerSelection) {
+function playRound() {
+    let playerSelection = getPlayerChoice();
+    let computerSelection = getComputerChoice();
     if (playerSelection === computerSelection) {
-        document.getElementById("Result").innerHTML = `Both player and computer picked ${playerSelection}. It's a draw!`;
+        console.log(`Both player and computer picked ${playerSelection}. It's a draw!`);
     } else if (playerSelection === "Rock") {
         if (computerSelection === "Paper") {
-            document.getElementById("Result").innerHTML = "Computer picked Paper. You lost!"
+            console.log("Computer picked Paper. You lost!");
             ++computerTracker;
         } else {
-            document.getElementById("Result").innerHTML = "Computer picked Scissors. You won!"
+            console.log("Computer picked Scissors. You won!");
             ++playerTracker;
         }
     } else if (playerSelection === "Paper") {
         if (computerSelection === "Scissors") {
-            document.getElementById("Result").innerHTML = "Computer picked Scissors. You lost!"
+            console.log("Computer picked Scissors. You lost!");
             ++computerTracker;
         } else {
-            document.getElementById("Result").innerHTML = "Computer picked Rock. You won!"
+            console.log("Computer picked Rock. You won!");
             ++playerTracker;
         }
     } else {
         if (computerSelection === "Rock") {
-            document.getElementById("Result").innerHTML = "Computer picked Rock. You lost!"
+            console.log("Computer picked Rock. You lost!");
             ++computerTracker;
         } else {
-            document.getElementById("Result").innerHTML = "Computer picked Paper. You won!"
+            console.log("Computer picked Paper. You won!");
             ++playerTracker;
         }
     }
 }
-
-console.log(playRound(playerSelection, computerSelection));
-console.log(computerTracker);
