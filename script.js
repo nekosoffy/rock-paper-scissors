@@ -67,3 +67,21 @@ function playRound() {
         }
     }
 }
+
+function playGame() {
+    let i = 0;
+    do {
+        playRound();
+        console.log(`Current player score: ${playerTracker}`);
+        console.log(`Current computer score: ${computerTracker}`);
+        ++i;
+    }
+    while (i < 5);
+    if (playerTracker > computerTracker) {
+        console.log("The game finished! You won!");
+    } else {
+        console.log("The game finished! You lost!");
+    }
+}
+
+console.log(playGame())
