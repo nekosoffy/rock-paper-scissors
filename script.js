@@ -1,6 +1,6 @@
 let playerTracker = 0;
 let computerTracker = 0;
-let roundTracker = 1;
+let roundTracker = 0;
 let playerSelection;
 let computerSelection;
 
@@ -46,22 +46,28 @@ function playRound() {
   const playerScore = document.createElement('p');
   const computerScore = document.createElement('p');
 
+  const playerWinCombinations = [
+    ['rock', 'scissors'],
+    ['paper', 'rock'],
+    ['scissors', 'paper'],
+  ];
+
   if (playerSelection === computerSelection) {
     roundText.textContent = `Both player and computer picked "${playerSelection}". It's a draw! (${roundTracker}/5)`;
-    ++roundTracker;
-  } else if (
-    (playerSelection === 'rock' && computerSelection === 'scissors') ||
-    (playerSelection === 'paper' && computerSelection === 'rock') ||
-    (playerSelection === 'scissors' && computerSelection === 'paper')
+  }
+  if (
+    playerWinCombinations.some(
+      (el) => playerSelection === el[0] && computerSelection === el[1]
+    )
   ) {
     roundText.textContent = `Computer picked "${computerSelection}". You won! (${roundTracker}/5)`;
     ++playerTracker;
-    ++roundTracker;
   } else {
     roundText.textContent = `Computer picked "${computerSelection}". You lost! (${roundTracker}/5)`;
     ++computerTracker;
-    ++roundTracker;
   }
+
+  ++roundTracker;
 
   playerScore.textContent = `Current player score: ${playerTracker}`;
   computerScore.textContent = `Current computer score: ${computerTracker}`;
@@ -69,15 +75,19 @@ function playRound() {
   score_div.appendChild(playerScore);
   score_div.appendChild(computerScore);
 
-  if (roundTracker <= 5) {
+  if (roundTracker < 5) {
     playGame();
-  } else {
+  } else if (roundTracker === 5) {
     const result = document.createElement('p');
-    if (playerTracker > computerTracker && roundTracker === 6) {
+
+    if (playerTracker > computerTracker) {
       result.textContent = 'The game finished! You won!';
-    } else if (playerTracker < computerTracker && roundTracker === 6) {
-      result.textContent = 'The game finished! You lost!';
+    } else if (playerTracker < computerTracker) {
+      result.textContent = 'The game finished! You lost...';
+    } else {
+      result.textContent = 'The game finished! It was a tie.';
     }
+
     score_div.appendChild(result);
   }
 }
